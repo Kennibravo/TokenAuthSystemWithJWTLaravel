@@ -14,7 +14,7 @@ class AddRoleFieldToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default("user")->after('name');
+            $table->integer('role')->default(1)->after('first_name');
         });
     }
 

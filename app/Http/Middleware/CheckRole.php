@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Workload\Http\Middleware;
 
-use App\User;
+use Workload\User;
 use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;

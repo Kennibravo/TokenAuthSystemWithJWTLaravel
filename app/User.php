@@ -1,22 +1,17 @@
 <?php
 
-namespace App;
+namespace Workload;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-<<<<<<< HEAD
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
 class User extends Authenticatable implements JWTSubject
 {
 
-=======
 
-class User extends Authenticatable
-{
->>>>>>> d7326188948a83cbc56b24d460d3980a62a3722d
     use Notifiable;
 
     /**
@@ -25,11 +20,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-<<<<<<< HEAD
-        'name', 'email', 'password', 'role',
-=======
-        'name', 'email', 'password',
->>>>>>> d7326188948a83cbc56b24d460d3980a62a3722d
+
+            'first_name', 'last_name', 'mobile', 'username', 'specialization', 'role', 'sex', 'state', 'lga', 'activation_token', 'status', 'phone_verified', 'email_verified', 'avatar', 'email', 'password',
+
     ];
 
     /**
@@ -40,7 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-<<<<<<< HEAD
+
 
     public function getJWTIdentifier()
         {
@@ -78,6 +71,5 @@ class User extends Authenticatable
         return response()->json(['error' => $error], 401);
 
     }
-=======
->>>>>>> d7326188948a83cbc56b24d460d3980a62a3722d
+
 }
