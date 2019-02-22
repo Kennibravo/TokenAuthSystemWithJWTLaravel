@@ -2,6 +2,7 @@
 
 namespace App;
 
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,4 +41,11 @@ class Artisan extends Authenticatable implements JWTSubject
         {
             return [];
         }
+=======
+use Illuminate\Database\Eloquent\Model;
+
+class Artisan extends Model
+{
+    //
+>>>>>>> d7326188948a83cbc56b24d460d3980a62a3722d
 }
