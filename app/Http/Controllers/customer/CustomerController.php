@@ -7,6 +7,7 @@ use Workload\Http\Controllers\Controller;
 use DB;
 use Workload\User;
 use Validator;
+use Auth;
 
 class CustomerController extends Controller
 {
@@ -43,9 +44,9 @@ class CustomerController extends Controller
 }
 
 
-    public function updateCustomerProfile(Request $request, $id)
+    public function updateCustomerProfile(Request $request)
     {
-
+        $id = Auth::user()->id;
         $validator = Validator::make($request->all(), [
             	'sex' => 'required',
                 //'username' => 'required|unique:users',
@@ -84,8 +85,8 @@ class CustomerController extends Controller
         //echo $avatar_file;
         // $avatar_name = $avatar_file->getClientOriginalName();
         $image_name = bcrypt(time()). $request->input('avatar');
-        
-        
+
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
@@ -98,6 +99,6 @@ class CustomerController extends Controller
             ]);
 
     }
-    
-    
+
+
 }

@@ -13,35 +13,65 @@ use Illuminate\Http\Request;
 |
 */
 
-
-		Route::post('register', 'UserController@register')->name('register');
+		//Unprotected Routes
+Route::group(['prefix' => 'v1'], function(){
+			Route::post('register', 'UserController@register')->name('register');
 	    Route::post('login', 'UserController@authenticate')->name('login');
 	    Route::post('logout', 'UserController@logout')->name('logout');
 
 
-    Route::group(['middleware' => ['jwt.verify']], function() {
-        Route::get('user', 'UserController@getAuthenticatedUser');
-        Route::get('closed', 'DataController@closed');
 
-        //Artisan group of routes
-        Route::group(['prefix' => 'artisan'], function() {
-            Route::get('get_artisan', 'ArtisanController@get_all'); // it fetches all the artisans
-			Route::get('get_artisan/{id}', 'ArtisanController@get_id'); // to fetch all artisans by id
-			Route::any('add_artisan', 'ArtisanController@store');//for adding a new artisan
-			Route::put('edit_artisan/{id}','ArtisanController@update');//for updating an artisan
-			Route::delete('delete_artisan/{id}','ArtisanController@destroy'); //for deleting an artisan
+    	Route::group(['middleware' => ['jwt.verify']], function() { //Protected by JWT middleware
+        // Route::get('user', 'UserController@getAuthenticatedUser');
+        // Route::get('closed', 'DataController@closed');
+
+    	//Artisan group of routes
+      Route::group(['prefix' => 'artisan'], function() {
+
+
+        //Get all artisans in the User's table and return JSON Objects
+      Route::get('getArtisan', 'artisan\ArtisanController@getAllArtisan');
+
+        //Get artisan details from the User's table based on the ID passed in and return JSON
+			Route::get('getArtisanById/{id}', 'artisan\ArtisanController@getArtisanById');
+
+			//Update Artisan's details in the User's table
+			Route::put('updateArtisanProfile/{id}', 'artisan\ArtisanController@updateArtisanProfile');
+
         });
-        
-        Route::group(['prefix' => 'customer'], function() {
-        //Customer group of routes
-		Route::get('getCustomer', 'customer\CustomerController@getAllCustomer');
-		Route::get('getCustomerById/{id}', 'customer\CustomerController@getCustomerById');
-		Route::put('updateCustomerProfile/{id}', 'customer\CustomerController@updateCustomerProfile');
 
+
+        //Customer group of routes
+      Route::group(['prefix' => 'customer'], function() {
+       	//Get all customers in the User's table and return JSON Objects
+			Route::get('getCustomer', 'customer\CustomerController@getAllCustomer');
+
+			//Get customer details from the User's table based on the ID passed in and return JSON Object
+			Route::get('getCustomerById/{id}', 'customer\CustomerController@getCustomerById');
+
+			//Update Customer's details in the User's table
+			Route::put('updateCustomerProfile', 'customer\CustomerController@updateCustomerProfile');
+
+			//The services route...
+			Route::group(['prefix' => 'services'], function(){
+
+			//Get all services created by a specific customer
+			Route::get('getServices', 'customer\CustomerServiceController@index');
+
+			//Create as new services for the customers
+			Route::post('createService', 'customer\CustomerServiceController@store');
+
+			//View services created based on current user
+			Route::get('showService/{id}', 'customer\CustomerServiceController@show');
+
+			//Edit the specified services.
+			Route::put('editService/{id}', 'customer\CustomerServiceController@update');
+
+			//Delete the specified service
+			Route::delete('deleteService/{id}', 'customer\CustomerServiceController@destroy');
+		});
 	});
 
 
     });
-
-
-
+});

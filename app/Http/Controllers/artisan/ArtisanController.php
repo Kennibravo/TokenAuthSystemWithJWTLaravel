@@ -30,7 +30,7 @@ class ArtisanController extends Controller
         if(count($artisanById) > 0){
             return response()->json([
                 'status' => 'success',
-                'Customer' => $artisanById
+                'Artisan' => $artisanById
 
             ], 200);
 
@@ -63,7 +63,7 @@ class ArtisanController extends Controller
                 'confirm_password' => 'required|same:password',
         ]);
 
-        //$CustomerId = Auth::user()->id;
+        //$ArtisanId = Auth::user()->id;
         $new_artisan = User::find($id);
 
         $new_artisan->first_name = $request->input('first_name');

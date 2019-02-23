@@ -8,6 +8,10 @@
     use Illuminate\Support\Facades\Validator;
     use JWTAuth;
     use Tymon\JWTAuth\Exceptions\JWTException;
+		use Mail;
+		use Workload\Mail\VerifyMail;
+		use Workload\Mail\WelcomeMail;
+
 
     class UserController extends Controller
     {
@@ -33,7 +37,7 @@
                 // 'email' => 'required|string|email|max:255|unique:users',
                 // 'password' => 'required|string|min:6|confirmed',
 
-    
+
                 'sex' => 'required',
                 'username' => 'required|unique:users',
                 'email' => 'required|email|unique:users',
@@ -70,6 +74,8 @@
 
             $token = JWTAuth::fromUser($user);
 
+						Mail::to($user->email)->send(new VerifyMail($user));
+
             //return response()->json(compact('user','token'),201);
             return response()->json(['success' => 'User registered successfully'], 200);
         }
@@ -103,5 +109,5 @@
 		        auth()->logout();
 				return response()->json(['message' => 'Successfully logged out']);
     }
-    
+
     }
